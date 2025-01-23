@@ -1,0 +1,5 @@
+Hoth Endor,9 Coruscant,3 Tatooine,1 Dagobah,5
+Endor Hoth,9 Coruscant,6 Tatooine,8 Dagobah,4
+Coruscant Endor,6 Hoth,3 Tatooine,5 Dagobah,2
+Tatooine Endor,8 Hoth,1 Coruscant,5 Dagobah,3
+Dagobah Hoth,5 Endor,4 Coruscant,2 Tatooine,3

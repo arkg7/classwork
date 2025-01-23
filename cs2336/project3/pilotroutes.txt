@@ -1,0 +1,5 @@
+Sully_Olvar_valid Hoth Endor Dagobah
+Sully_Olvar_invalid Tatooine Dagobah Naboo Yavin Alderaan
+Sully_Olvar_valid Hoth
+Sully_Olvar_invalid Hoth Endor Dagobah
+Drake Hoth Endor Tatooine Coruscant

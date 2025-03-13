@@ -32,7 +32,6 @@ public class Splaytree {
                 inserted = true;
             }
         }
-        splay(node.getValue());
     }
     public void splay(int splayNode){
         Node curNode = root;
@@ -47,20 +46,38 @@ public class Splaytree {
             }
         }
         while(curNode!=root){
-            if(curNode.getParent().getLeftChild()==curNode){
+            System.out.println("\n1");
+            if(curNode.getSide()<0&&curNode.getParent().hasParent()){
                 curNode.getParent().getParent().setLeftChild(curNode);
                 curNode.getParent().setLeftChild(curNode.getRightChild());
                 curNode.setRightChild(curNode.getParent());
                 curNode.setParent(curNode.getRightChild().getParent());
                 curNode.getRightChild().setParent(curNode);
+                continue;
 
-            }
-            if(curNode.getParent().getRightChild()==curNode){
+            }else if(curNode.getSide()<0){
+                curNode.getParent().setLeftChild(curNode.getRightChild());
+                curNode.setRightChild(curNode.getParent());
+                curNode.setParent(null);
+                curNode.getRightChild().setParent(curNode);
+                root = curNode;
+                continue;
+
+            }else if(curNode.getSide()>0&&curNode.getParent().hasParent()){
                 curNode.getParent().getParent().setRightChild(curNode);
                 curNode.getParent().setRightChild(curNode.getLeftChild());
                 curNode.setLeftChild(curNode.getParent());
                 curNode.setParent(curNode.getLeftChild().getParent());
                 curNode.getRightChild().setParent(curNode);
+                continue;
+
+            }else if (curNode.getSide()>0){
+                curNode.getParent().setRightChild(curNode.getLeftChild());
+                curNode.setLeftChild(curNode.getParent());
+                curNode.setParent(null);
+                curNode.getLeftChild().setParent(curNode);
+                root = curNode;
+                continue;
 
             }
         }

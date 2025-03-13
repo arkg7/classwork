@@ -2,14 +2,17 @@ package cs3345.splay;
 
 public class Main {
     public static void main(String[] args) {
-        Splaytree splay = new Splaytree(new Node(2));
-        splay.insert(new Node(1));
-        splay.insert(new Node(3));
+        Splaytree splaytree = new Splaytree(new Node(2));
+        splaytree.insert(new Node(1));
+        splaytree.insert(new Node(3));
         System.out.println("\nPre:");
-        splay.preOrder(splay.getRoot());
+        splaytree.preOrder(splaytree.getRoot());
         System.out.println("\nIn:");
-        splay.inOrder(splay.getRoot());
+        splaytree.inOrder(splaytree.getRoot());
         System.out.println("\nPost:");
-        splay.postOrder(splay.getRoot());
+        splaytree.postOrder(splaytree.getRoot());
+        splaytree.splay(3);
+        System.out.println("\nSplay: 3");
+        splaytree.inOrder(splaytree.getRoot());
     }
 }

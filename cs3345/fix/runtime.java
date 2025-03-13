@@ -1,4 +1,4 @@
-package cs3345;
+package cs3345.fix;
 public class runtime{
     public static void main(String[] args) {
         long start = System.nanoTime();

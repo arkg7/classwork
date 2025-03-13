@@ -1,4 +1,4 @@
-package cs3345;
+package cs3345.fix;
 import java.util.Scanner;
 import java.util.Stack;
 public class postfix{

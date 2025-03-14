@@ -1,24 +1,32 @@
 package cs3345.splay;
 
 public class Node implements Comparable<Node> {
+    @SuppressWarnings("FieldMayBeFinal")
     private int value;
     private Node parentNode;
     private int parentSide;
     private Node leftSubNode;
     private Node rightSubNode;
-    public Node(int value){
-        this.value = value;
+    public Node(int nodeValue){
+        value = nodeValue;
     }
     public void setLeftChild(Node childNode){
         leftSubNode = childNode;
-        childNode.setSide(-1);
+        if(childNode!=null){
+            childNode.setSide(-1);
+        }
     }
     public void setRightChild(Node childNode){
         rightSubNode = childNode;
-        childNode.setSide(1);
+        if(childNode!=null){
+            childNode.setSide(1);
+        }
     }
     public void setParent(Node node){
         parentNode = node;
+        if(node == null){
+            parentSide = 0;
+        }
     }
     public void setSide(int side){
         parentSide = side;
@@ -39,27 +47,20 @@ public class Node implements Comparable<Node> {
         return parentSide;
     }
     public Boolean hasLeftChild(){
-        if(leftSubNode!=null){
-            return true;
-        }
-        return false;
+        return leftSubNode!=null;
     }
     public Boolean hasRightChild(){
-        if(rightSubNode!=null){
-            return true;
-        }
-        return false;
+        return rightSubNode!=null;
     }
     public Boolean hasParent(){
-        if(parentNode!=null){
-            return true;
-        }
-        return false;
+        return parentNode!=null;
     }
+    @Override
     public String toString(){
         String out = ""+value;
         return out;
     }
+    @Override
     public int compareTo(Node compNode){
         if(value<compNode.getValue()){
             return -1;

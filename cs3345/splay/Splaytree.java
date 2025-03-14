@@ -52,7 +52,19 @@ public class Splaytree {
                     while(curNode.hasRightChild()){
                         curNode = curNode.getRightChild();
                     }
-                    
+                    splay(curNode.getValue());
+                    if(root.getRightChild().hasRightChild()){
+                        root.setRightChild(root.getRightChild().getRightChild());
+                        root.getRightChild().setParent(root);
+                    }else{
+                        root.setRightChild(null);
+                    }
+                }else if(root.hasLeftChild()){
+                    root = root.getLeftChild();
+                    root.setParent(null);
+                }else if(root.hasRightChild()){
+                    root = root.getRightChild();
+                    root.setParent(null);
                 }
             }
         }else{
@@ -63,17 +75,20 @@ public class Splaytree {
         Node curNode = root;
         //Initializes curNode to the root, and moves down the tree to the desired node using binary search algorithm
         while(curNode.getValue()!=splayNode){
+            //If key less than node, moves left.
             if(splayNode<curNode.getValue()){
                 if(curNode.hasLeftChild()){
                    curNode = curNode.getLeftChild(); 
                 }else{
+                    //returns false if it reaches an end and cannot find the node.
                     return false;
                 }
-                
+            //moves right if key greater than node.
             }else if(splayNode>curNode.getValue()){
                 if(curNode.hasRightChild()){
                     curNode = curNode.getRightChild();
                 }else{
+                    //end reached and node not found.
                     return false;
                 }
                 

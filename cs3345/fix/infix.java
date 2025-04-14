@@ -2,6 +2,7 @@ package cs3345.fix;
 import java.util.Scanner;
 import java.util.Stack;
 public class infix{
+    @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
         Stack<String> opStack = new Stack<>();
         String infix = "";
@@ -12,29 +13,27 @@ public class infix{
             String op1;
             String op2;
             switch(postfix.charAt(i)){
-                case('*'):
+                case('*') -> {
                     op1 = opStack.pop();
                     op2 = opStack.pop();
                     opStack.push("("+op2+postfix.charAt(i)+op1+")");
-                    break;
-                case('/'):
+                }
+                case('/') -> {
                     op1 = opStack.pop();
                     op2 = opStack.pop();
                     opStack.push("("+op2+postfix.charAt(i)+op1+")");
-                    break;
-                case('+'):
+                }
+                case('+') -> {
                     op1 = opStack.pop();
                     op2 = opStack.pop();
                     opStack.push("("+op2+postfix.charAt(i)+op1+")");
-                    break;
-                case('-'):
+                }
+                case('-') -> {
                     op1 = opStack.pop();
                     op2 = opStack.pop();
                     opStack.push("("+op2+postfix.charAt(i)+op1+")");
-                    break;
-                default:
-                    opStack.push(postfix.substring(i,i+1));
-                    break;
+                }
+                default -> opStack.push(postfix.substring(i,i+1));
             }
             
         }
@@ -42,5 +41,6 @@ public class infix{
                 infix += opStack.pop();
         }
         System.out.println("Postfix:"+infix);
+        scan.close();
     }
 }

@@ -4,6 +4,7 @@ public class mergeSort {
     public static void sort(int[] arr){
         mergeSplit(arr, arr.length);
     }
+    @SuppressWarnings("ManualArrayToCollectionCopy")
     private static void mergeSplit(int[] arr, int n){
         if(arr.length<=1){
             return;

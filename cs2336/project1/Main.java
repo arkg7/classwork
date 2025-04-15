@@ -3,7 +3,6 @@ package project1;
 //axg230108
 import java.io.*;
 import java.util.Scanner;
-import java.lang.Math; 
 public class Main{
     public static void main(String[] args) throws IOException{
         double[][][] coord = new double[20][16][2]; 
@@ -14,6 +13,7 @@ public class Main{
         scan.close();
         populate(coord, pilot, input);
         write(coord, pilot);
+        scan.close();
     }
     //the FUN part >:3
     public static void populate(double[][][] table, String[] list, String in) throws FileNotFoundException{

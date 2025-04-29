@@ -16,11 +16,23 @@ public class Maze {
         Random r = new Random();
         while(union[0]!=(n*m*-1)){
             System.out.println();
+            for(int i: maze[0]){
+                System.out.print(" _");
+            }
             for(int[] i: maze){
-                for(int j: i){
-                    System.out.print(j+"\t");
-                }
                 System.out.println();
+                for(int j: i){
+                    if((j|12)==j){
+                        System.out.print("  ");
+                    }else if ((j|4)==j) {
+                        System.out.print("| ");
+                    }else if ((j|8)==j) {
+                        System.out.print(" _");
+                    }else{
+                        System.out.print("|_");
+                    }
+                }
+                System.out.println("|");
             }
             System.out.println();
             for(int i = 0; i<union.length;i++){
@@ -47,21 +59,29 @@ public class Maze {
                         maze[cell/m][cell%m] |= 1;
                         maze[(cell-m)/m][cell%m] |= 4;
                         union[cell] = getParent(cell-m);
-                        union[cell-m] -=1;
+                        if(getParent(cell-m)>0){
+                            int parent = getParent(cell-m);
+                            union[parent] -=1;
+                        }else{
+                            union[cell-m] -=1;
+                        }
                     }
                 }
                 case 2 -> {
                     if(getParent(cell)!=getParent(cell+1)||(getParent(cell)==-1&&getParent(cell+1)==-1)){
                         maze[cell/m][cell%m] |= 2;
                         maze[cell/m][(cell+1)%m] |= 8;
-                        union[cell+1] = getParent(cell);
+                        union[cell] = union[cell+1]-1;
+                        union[cell+1] = cell;
+
                     }
                 }
                 case 4 -> {
                     if(getParent(cell)!=getParent(cell+m)||(getParent(cell)==-1&&getParent(cell+m)==-1)){
                         maze[cell/m][cell%m] |= 4;
                         maze[(cell+m)/m][cell%m] |= 1;
-                        union[cell+m] = getParent(cell);
+                        union[cell] = union[cell+m]-1;
+                        union[cell+m] = cell;
                     }
                 }
                 case 8 -> {
@@ -69,7 +89,12 @@ public class Maze {
                         maze[cell/m][cell%m] |= 8;
                         maze[cell/m][(cell-1)%m] |= 2;
                         union[cell] = getParent(cell-1);
-                        union[cell-1] -=1;
+                        if(getParent(cell-1)>0){
+                            int parent = getParent(cell-1);
+                            union[parent] -=1;
+                        }else{
+                            union[cell-1] -=1;
+                        }
                     }
                 }
             }

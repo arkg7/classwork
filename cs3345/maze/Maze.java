@@ -5,9 +5,13 @@ import java.util.Random;
 public class Maze {
     private int[][] maze;
     private int[] union;
+    private int wid;
+    private int hig;
     public Maze(int n, int m){
         maze = new int[n][m];
         union = new int[n*m];
+        hig = n;
+        wid = m;
         for(int i = 0; i<union.length;i++){
             union[i] = -1;
         }
@@ -15,36 +19,8 @@ public class Maze {
         maze[n-1][m-1] = 2;
         Random r = new Random();
         while(union[0]!=(n*m*-1)){
-            System.out.println();
-            for(int i: maze[0]){
-                System.out.print(" _");
-            }
-            for(int[] i: maze){
-                System.out.println();
-                for(int j: i){
-                    if((j|12)==j){
-                        System.out.print("  ");
-                    }else if ((j|4)==j) {
-                        System.out.print("| ");
-                    }else if ((j|8)==j) {
-                        System.out.print(" _");
-                    }else{
-                        System.out.print("|_");
-                    }
-                }
-                System.out.println("|");
-            }
-            System.out.println();
-            for(int i = 0; i<union.length;i++){
-                System.out.print(i+"\t");
-            }
-            System.out.println();
-            for(int i : union){
-                System.out.print(i+"\t");
-            }
-            System.out.println("\n");
             int cell = r.nextInt(n*m);
-            while(union[cell]!=-1){
+            while(union[cell]>0){
                 cell = r.nextInt(n*m);
             }
             int side = r.nextInt(4);
@@ -52,80 +28,76 @@ public class Maze {
                 side = r.nextInt(4);
             }
             side = (int)Math.pow(2, side);
-            System.out.println(cell+" "+side);
             switch (side) {
                 case 1 -> {
-                    if(getParent(cell)!=getParent(cell-m)||(getParent(cell)==-1&&getParent(cell-m)==-1)){
+                    if(getParent(cell)!=getParent(cell-m)){
                         maze[cell/m][cell%m] |= 1;
                         maze[(cell-m)/m][cell%m] |= 4;
-                        union[cell] = getParent(cell-m);
-                        if(getParent(cell-m)>0){
-                            int parent = getParent(cell-m);
-                            union[parent] -=1;
+                        if(cell<getParent(cell-m)){
+                            union[cell] = union[getParent(cell-m)]+union[cell];
+                            union[getParent(cell-m)] = cell;
                         }else{
-                            union[cell-m] -=1;
+                            union[getParent(cell-m)] = union[getParent(cell-m)]+union[cell];
+                            union[cell] = cell-m;
                         }
                     }
                 }
                 case 2 -> {
-                    if(getParent(cell)!=getParent(cell+1)||(getParent(cell)==-1&&getParent(cell+1)==-1)){
+                    if(getParent(cell)!=getParent(cell+1)){
                         maze[cell/m][cell%m] |= 2;
                         maze[cell/m][(cell+1)%m] |= 8;
-                        union[cell] = union[cell+1]-1;
-                        union[cell+1] = cell;
-
+                        if(cell<getParent(cell+1)){
+                            union[cell] = union[getParent(cell+1)]+union[cell];
+                            union[getParent(cell+1)] = cell;
+                        }else{
+                            union[getParent(cell+1)] = union[getParent(cell+1)]+union[cell];
+                            union[cell] = cell+1;
+                        }
                     }
                 }
                 case 4 -> {
-                    if(getParent(cell)!=getParent(cell+m)||(getParent(cell)==-1&&getParent(cell+m)==-1)){
+                    if(getParent(cell)!=getParent(cell+m)){
                         maze[cell/m][cell%m] |= 4;
                         maze[(cell+m)/m][cell%m] |= 1;
-                        union[cell] = union[cell+m]-1;
-                        union[cell+m] = cell;
+                        if(cell<getParent(cell+m)){
+                            union[cell] = union[getParent(cell+m)]+union[cell];
+                            union[getParent(cell+m)] = cell;
+                        }else{
+                            union[getParent(cell+m)] = union[getParent(cell+m)]+union[cell];
+                            union[cell] = cell+m;
+                        }
+                        
                     }
                 }
                 case 8 -> {
-                    if(getParent(cell)!=getParent(cell-1)||(getParent(cell)==-1&&getParent(cell-1)==-1)){
+                    if(getParent(cell)!=getParent(cell-1)){
                         maze[cell/m][cell%m] |= 8;
                         maze[cell/m][(cell-1)%m] |= 2;
-                        union[cell] = getParent(cell-1);
-                        if(getParent(cell-1)>0){
-                            int parent = getParent(cell-1);
-                            union[parent] -=1;
+                        if(cell<getParent(cell-1)){
+                            union[cell] = union[getParent(cell-1)]+union[cell];
+                            union[getParent(cell-1)] = cell;
                         }else{
-                            union[cell-1] -=1;
+                            union[getParent(cell-1)] = union[getParent(cell-1)]+union[cell];
+                            union[cell] = cell-1;
                         }
                     }
                 }
             }
-
         }
-        System.out.println();
-        for(int[] i: maze){
-            for(int j: i){
-                System.out.print(j+"\t");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        for(int i = 0; i<union.length;i++){
-            System.out.print(i+"\t");
-        }
-        System.out.println();
-        for(int i : union){
-            System.out.print(i+"\t");
-        }
-        System.out.println();
     }
     private int getParent(int cell){
+        int index;
         int parent = union[cell];
-        if(parent==-1){
+        if(parent<0){
             return cell;
+        }else{
+            do{
+                index = parent;
+                parent = union[parent];
+            }while(parent>=0);
         }
-        while(parent>0){
-            parent = union[parent];
-        }
-        return parent;
+        
+        return index;
     }
     private boolean isValid(int n, int m, int cell, int side){
         if(cell/m==0&&side==0){
@@ -143,5 +115,36 @@ public class Maze {
             return true;
         }
         
+    }
+    public String toString(){
+        String out = "";
+            for(int i: maze[0]){
+                out+=(" _");
+            }
+            for(int[] i: maze){
+                out+="\n";
+                for(int j: i){
+                    if((j|12)==j){
+                        out+=("  ");
+                    }else if ((j|4)==j) {
+                        out+=("| ");
+                    }else if ((j|8)==j) {
+                        out+=(" _");
+                    }else{
+                        out+=("|_");
+                    }
+                }
+                if((i[wid-1]|2)!=i[wid-1]){
+                    out+=("|\t\t");
+                }else{
+                    out+=("\t\t");
+                }
+                
+                for(int j: i){
+                    out+=(j+"\t");
+                }
+            }
+            out+="\n";
+        return out;
     }
 }

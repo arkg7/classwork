@@ -10,5 +10,6 @@ public class Main {
         System.out.print("m = ");
         int m = scan.nextInt();
         Maze maze = new Maze(n, m);
+        System.out.println(maze.toString());
     }
 }

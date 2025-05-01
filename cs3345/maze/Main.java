@@ -11,5 +11,6 @@ public class Main {
         int m = scan.nextInt();
         Maze maze = new Maze(n, m);
         System.out.println(maze.toString());
+        System.out.println(maze.getPath());
     }
 }

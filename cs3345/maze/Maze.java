@@ -20,7 +20,7 @@ public class Maze {
         Random r = new Random();
         while(union[0]!=(n*m*-1)){
             int cell = r.nextInt(n*m);
-            while(union[cell]>0){
+            while(union[cell]>=0){
                 cell = r.nextInt(n*m);
             }
             int side = r.nextInt(4);
@@ -146,5 +146,47 @@ public class Maze {
             }
             out+="\n";
         return out;
+    }
+    private boolean canMove(int cell,int side){
+        if((maze[cell/wid][cell%wid]|side)==maze[cell/wid][cell%wid]){
+            return true;
+        }
+        return false;
+    }
+    public String getPath(){
+        String out = "";
+        int cell = 0;
+        for(int i = 1; i<=2;i++){
+            int side = (int)Math.pow(2, i);
+            if(canMove(cell, side)){
+                if(side == 2){
+                    out+= "E" + getPath(cell+1, side);
+                }else if(side == 4){
+                    out+= "S" + getPath(cell+wid, side);
+                }
+            }
+        }
+        return out;
+    }
+    private String getPath(int cell, int from){
+        if(cell==hig*wid-1){
+            return "E+";
+        }else{
+            for(int i = 0; i<=3;i++){
+                int side = (int)Math.pow(2, i);
+                if(canMove(cell, side)){
+                    if(side == 1&&from!=4){
+                        return "N" + getPath(cell-wid, side);
+                    }else if(side == 2&&from!=8){
+                        return "E" + getPath(cell+1, side);
+                    }else if(side == 4&&from!=1){
+                        return "S" + getPath(cell+wid, side);
+                    }else if(side == 8&&from!=2){
+                        return "W" + getPath(cell-1, side);
+                    }
+                }
+            }
+        }
+        return "-";
     }
 }

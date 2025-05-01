@@ -24,7 +24,7 @@ public class Maze {
                 cell = r.nextInt(n*m);
             }
             int side = r.nextInt(4);
-            while(!isValid(n, m, cell, side)){
+            while(!isValid(cell, side)){
                 side = r.nextInt(4);
             }
             side = (int)Math.pow(2, side);
@@ -99,17 +99,17 @@ public class Maze {
         
         return index;
     }
-    private boolean isValid(int n, int m, int cell, int side){
-        if(cell/m==0&&side==0){
+    private boolean isValid(int cell, int side){
+        if(cell/wid==0&&side==0){
             return false;
         }
-        if(cell%m==m-1&&side==1){
+        if(cell%wid==wid-1&&side==1){
             return false;
         }
-        if(cell/m==n-1&&side==2){
+        if(cell/wid==hig-1&&side==2){
             return false;
         }
-        if(cell%m==0&&side==3){
+        if(cell%wid==0&&side==3){
             return false;
         }else{
             return true;

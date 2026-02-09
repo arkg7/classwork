@@ -17,28 +17,29 @@ public class Maze {
             union[i] = -1;                                                  //                                      -If the cell is in the path on the way to the exit
         }
         //Disjoint array to keep track of which cells are connected.
-        //Bitwise 1 0 0 0 to represent left wall down and 0 0 2 0 to represent right wall.
+        //Bitwise 1 0 0 0 to represent left wall down and 0 0 2 0 
+        //to represent right wall.
         //AKA entrance and exit walls.
         maze[0][0] = 8;
-        maze[n-1][m-1] = 2;
-        //Randomness to randomize the maze.
-        Random r = new Random();                                            
-        //Until every cell is connected to the entrance                     
-        while(union[0]!=(n*m*-1)){                                          
-            //Picks random root cell from disjoint array
-            int cell = r.nextInt(n*m);                                      //Each wall has only 2 states. Up, or down. Perhaps even represented by binary 1's and 0's.
-            while(union[cell]>=0){                                          //Now if we lined up those binary 1's and 0's we could make something like this to represent all the walls to a cell
-                cell = r.nextInt(n*m);                                      //    0 0 0 1 == only first wall down       0 0 1 0 == second wall down.   you get it.
-            }                                                               //          Therefore, we can wrap these binary wall states around the cell in a clocklike fashion
-            //Picks random side                                             //          to make something like:             0
-            int side = r.nextInt(4);                                  //                                          0       0
-            //Randomizes side until is valid for chosen cell                //                                              0
-            while(!isValid(cell, side)){                                    //          Where the most significant bit is the left one, and the top one is the least.
-                side = r.nextInt(4);                                  //          Now. Four bits can be represented as a normal integer.
+        maze[n-1][m-1] = 2;                                                 //Each wall has only 2 states. closed or open. Perhaps even represented by binary 1's and 0's.
+        //Randomness to randomize the maze.                                 //Now if we lined up those binary 1's and 0's we could make something like this to represent all the walls to a cell
+        Random r = new Random();                                            //    0 0 0 1 == only first wall down       0 0 1 0 == second wall down.   you get it.
+        //Until every cell is connected to the entrance                     //          Therefore, we can wrap these binary wall states around the cell in a clocklike fashion
+        while(union[0]!=(n*m*-1)){                                          //          to make something like:             0
+            //Picks random root cell from disjoint array                    //                                          0       0
+            int cell = r.nextInt(n*m);                                      //                                              0
+            while(union[cell]>=0){                                          //          Where the most significant bit is the left one, and the top one is the least.
+                cell = r.nextInt(n*m);                                      //          Now. Four bits can be represented as a normal integer.
             }                                                               //          This is how the integer in each index of the array represents the status of all walls pertinent to the cell.
-            //Converts side to power of 2 for binary representation         //          We can also use a 5th bit to represent the cell being on the path to the exit.
-            side = (int)Math.pow(2, side);                                //          Unwrapped:     1           1         0             0         1
-            switch (side) {                                                 //          Meaning:    On Path   Left Wall  Right wall   Right wall   Top wall
+            //Picks random side                                             //          We can also use a 5th bit to represent the cell being on the path to the exit.
+            int side = r.nextInt(4);                                  //          Unwrapped:     1           1         0             0         1
+            //Randomizes side until is valid for chosen cell                //          Meaning:    On Path   Left Wall  Right wall   Right wall   Top wall
+            while(!isValid(cell, side)){                                    
+                side = r.nextInt(4);                                  
+            }                                                               
+            //Converts side to power of 2 for binary representation         
+            side = (int)Math.pow(2, side);                                
+            switch (side) {                                                 
                 //Each case follows same idea.
                 //Break reverse walls on the cells which have been chosen to be connected.
                 //If current cell is less than the parent cell of the cell it is being connected to, it becomes the new parent of the tree.
@@ -284,7 +285,7 @@ public class Maze {
         out += "\n";
         return out;
     }
-    
+
     //Prints out the array in its raw, intense form.
     public String raw(){
         String out = "";

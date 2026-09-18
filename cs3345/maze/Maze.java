@@ -17,7 +17,7 @@ public class Maze {
             union[i] = -1;                                                  //                                      -If the cell is in the path on the way to the exit
         }
         //Disjoint array to keep track of which cells are connected.
-        //Bitwise 1 0 0 0 to represent left wall down and 0 0 2 0 
+        //Bitwise 1 0 0 0 to represent left wall down and 0 0 1 0 
         //to represent right wall.
         //AKA entrance and exit walls.
         maze[0][0] = 8;
